@@ -103,6 +103,7 @@ public:
 public:
 	IntersectInfo NextIntersect();
 private:
-	PolygonRaw* outer;
-	PolygonRaw* inner;
+	PolygonRaw* m_outer;
+	PolygonRaw* m_inner;
+	IntersectInfo m_last_intersect;
 };

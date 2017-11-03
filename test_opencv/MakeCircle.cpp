@@ -161,34 +161,34 @@ PolygonRaw PolygonRaw::RandomInner(JPoint position, size_type precis, double rad
 /************************************************************************/
 
 PolyIntersect::PolyIntersect(PolygonRaw* o, PolygonRaw* i)
-: outer(o)
-, inner(i)
+: m_outer(o)
+, m_inner(i)
 {}
 
 PolyIntersect::~PolyIntersect()
 {
-	outer = nullptr;
-	inner = nullptr;
+	m_outer = nullptr;
+	m_inner = nullptr;
 }
 
 IntersectInfo PolyIntersect::NextIntersect()
 {
 	IntersectInfo result = IntersectInfo();
-	result.inner_poly = inner;
-	result.outer_poly = outer;
+	result.inner_poly = m_inner;
+	result.outer_poly = m_outer;
 	static double inner_idx_d = 0;
 	static double outer_idx_d = 0;
 	static size_type inner_idx = 0;//(size_type)inner_idx_d;
 	static size_type outer_idx = 0;//(size_type)outer_idx_d;
-	result.inner_point = PolygonPoint(inner->m_pPoints + inner_idx, inner->m_pPoints + 1 + inner_idx, 0, inner_idx);
-	result.outer_point = PolygonPoint(outer->m_pPoints + outer_idx, outer->m_pPoints + 1 + outer_idx, 0, outer_idx);
+	result.inner_point = PolygonPoint(m_inner->m_pPoints + inner_idx, m_inner->m_pPoints + 1 + inner_idx, 0, inner_idx);
+	result.outer_point = PolygonPoint(m_outer->m_pPoints + outer_idx, m_outer->m_pPoints + 1 + outer_idx, 0, outer_idx);
 
-	inner_idx = (inner_idx + 3) % inner->m_uCount;
-	outer_idx = (outer_idx + 2) % outer->m_uCount;
+	inner_idx = (inner_idx + 3) % m_inner->m_uCount;
+	outer_idx = (outer_idx + 2) % m_outer->m_uCount;
 
 	inner_idx_d += 3;
 	outer_idx_d += 1;
-	if (inner_idx_d >= inner->m_uCount) inner_idx_d -= inner->m_uCount;
-	if (outer_idx_d >= outer->m_uCount) outer_idx_d -= outer->m_uCount;
+	if (inner_idx_d >= m_inner->m_uCount) inner_idx_d -= m_inner->m_uCount;
+	if (outer_idx_d >= m_outer->m_uCount) outer_idx_d -= m_outer->m_uCount;
 	return result;
 }
